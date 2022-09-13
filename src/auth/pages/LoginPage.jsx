@@ -10,12 +10,14 @@ import { useForm } from "../../hooks/useForm";
 import { startGoogleSignIn, startLoginWithEmailPassowrd } from "../../store/auth";
 
 
+const formData = {
+  email: "",
+  password: "",
+ }
+
 export const LoginPage = () => {
 
-  const { email, password, onInputChange } = useForm({
-    email: "",
-    password: "",
-   });
+  const { email, password, onInputChange } = useForm( formData );
 
   const { status, errorMessage } = useSelector( state => state.auth );
 
