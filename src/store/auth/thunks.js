@@ -48,16 +48,22 @@ export const startLoginWithEmailPassowrd = ({ email, password }) => {
 
         dispatch( checkingCredentials() );
 
-        const { ok, uid, photoURL, errorMessage } = await loginWithEmailPassword({ email, password });
+        //? Forma 1 de hacerlo (problemas en el testing no reconoce el ok)
 
-        // if ( ok ) return login({ uid, email, photoURL });
-
-        // dispatch( logout({ errorMessage }) );  //! No funciona asi
-
+        // const { ok, uid, photoURL, errorMessage } = await loginWithEmailPassword({ email, password });
+        // if ( !ok ) return dispatch( logout({ errorMessage }) );
+        // dispatch( login({ ok, uid, email, photoURL }) );
         
-        if ( !ok ) return dispatch( logout({ errorMessage }) );
+        
+        //? Forma 2 de hacerlo
 
-        dispatch( login({ uid, email, photoURL }) );
+        const result  = await loginWithEmailPassword({ email, password });
+        if ( !result.ok ) return dispatch( logout( result.errorMessage ) );
+        dispatch( login( result ) );
+
+                
+        // if ( ok ) return login({ uid, email, photoURL });
+        // dispatch( logout({ errorMessage }) );  //! No funciona asi
 
     }
     
